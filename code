@@ -1,0 +1,59 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <unordered_map>
+#include <string>
+#include <map>
+#include <algorithm>
+using namespace std;
+bool cmp(const pair<int, int>& a, const pair<int, int>& b) {
+ return a.second > b.second; 
+}
+void sortss(map<int, int>& M,int x)
+{
+ vector<pair<int, int>> A;
+ 
+for (auto& it : M) {
+ A.push_back(it);
+ }
+ sort(A.begin(), A.end(), cmp);
+ for (int i = 0; i < x && i < A.size(); ++i) {
+ cout << A[i].first << " has " << A[i].second << " followers " << endl;
+ }
+}
+int main() {
+ int a;
+ cout << "how many top influncers u want to know their followrs ?" << "\n";
+ cin >> a;
+ const string filePath = "twitter.csv";
+ vector<int> b;
+ ifstream file(filePath);
+if (!file.is_open()) {
+ cerr << "there is an error opening file : " << filePath << endl;
+ return 1; 
+ }
+ string line;
+while (getline(file, line)) {
+ istringstream ab(line);
+string token;
+ getline(ab, token, ','); 
+ getline(ab, token, ',');
+ b.push_back(stoi(token));
+ }
+ file.close();
+ map<int, int> M;
+ for (int i = 0;i < b.size() ;i++) {
+ M[b[i]] = 0;
+ }
+ for (int i = 0;i < b.size() ;i++) {
+ M[b[i]] += 1;
+ }
+ sortss(M,a);
+ return 0;
+}
+/*
+ Sorting the vector of pairs A : The sorting operation has a time complexity of O(N log N),
+ where N is the size of the vector A.
+ so the final time complexity is O(N log N)
+*/
